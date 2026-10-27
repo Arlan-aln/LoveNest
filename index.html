@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="LoveyNest: aplikasi untuk dua orang. Chat, kalender, tugas, album, surat, dan mood dalam satu ruang privat.">
+<meta property="og:title" content="LoveyNest">
+<meta property="og:description" content="Ruang kecil untuk dua hati.">
+<meta property="og:image" content="img/logo.png">
+<link rel="icon" href="img/mark.png">
+<title>LoveyNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: single-page product tour. Hero with phone, then alternating text/phone feature rows, a dense "dan banyak lagi" list, privacy band, how-to-start steps. Rose and lavender petals on cream; Fraunces for voice, Jakarta for UI text. */
+:root{
+  --bg:#fff7fa; --surface:#ffffff; --petal:#fdeaf1; --lav:#ece6fa; --lav-ink:#5b4d86;
+  --ink:#3f2a38; --muted:#6e5e6b; --line:#f0dce6;
+  --berry:#b8446f; --berry-deep:#9a3459; --on-berry:#ffffff; --berry-soft:#a63a62;
+  --phone:#2b1d27; --shadow:0 24px 60px rgba(120,50,85,.18);
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1b1319; --surface:#291c25; --petal:#33232d; --lav:#2f2a45; --lav-ink:#cdc2f4;
+  --ink:#f6e8ef; --muted:#c7b3bf; --line:#45303d;
+  --berry:#e37aa2; --berry-deep:#c04b78; --on-berry:#1b1319; --berry-soft:#f59bbd;
+  --phone:#0f0a0e; --shadow:0 24px 60px rgba(0,0,0,.5); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1b1319; --surface:#291c25; --petal:#33232d; --lav:#2f2a45; --lav-ink:#cdc2f4;
+  --ink:#f6e8ef; --muted:#c7b3bf; --line:#45303d;
+  --berry:#e37aa2; --berry-deep:#c04b78; --on-berry:#1b1319; --berry-soft:#f59bbd;
+  --phone:#0f0a0e; --shadow:0 24px 60px rgba(0,0,0,.5); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  background-image:radial-gradient(700px 500px at 0 0,var(--petal),transparent 70%),radial-gradient(700px 600px at 100% 18%,var(--lav),transparent 70%);background-repeat:no-repeat}
+p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.012em;line-height:1.08}
+em{font-style:italic;color:var(--berry)}
+.gut{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.in{max-width:1060px;margin:0 auto}
+a{color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:15px 28px;font:700 1rem var(--body);text-decoration:none;background:var(--berry);color:var(--on-berry);box-shadow:0 14px 30px rgba(184,68,111,.28);border:0;cursor:pointer}
+.btn:hover{background:var(--berry-deep)}
+.btn.ghost{background:transparent;color:var(--berry);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ghost:hover{background:var(--petal)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--berry);outline-offset:3px}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--berry-soft)}
+
+/* top bar */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:20px}
+.brand{display:flex;align-items:center;gap:10px;font:600 1.4rem var(--display);color:var(--berry);text-decoration:none}
+.brand img{width:40px;height:auto}
+.mode{border:0;background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;font:600 .85rem var(--body);cursor:pointer;box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* phone frame */
+.phone{position:relative;width:100%;max-width:290px;margin:0 auto;aspect-ratio:660/1428;border-radius:44px;padding:10px;background:var(--phone);box-shadow:var(--shadow),inset 0 0 0 2px rgba(255,255,255,.08)}
+.phone img,.phone video{width:100%;height:100%;display:block;border-radius:35px;object-fit:cover;object-position:top;background:var(--petal)}
+.phone.sm{max-width:240px;border-radius:38px;padding:8px}.phone.sm img{border-radius:31px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center;padding-block:28px 72px}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);margin-top:14px}
+.hero .lede{font-size:1.2rem;color:var(--muted);margin-top:20px;max-width:34ch}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero small{display:block;margin-top:18px;color:var(--muted);font-size:.9rem;max-width:44ch}
+.hero .stack{position:relative;padding-bottom:20px}
+.hero .stack .phone{transform:rotate(3deg)}
+.pill{position:absolute;background:var(--surface);color:var(--ink);border-radius:999px;padding:10px 18px;font-weight:700;font-size:.9rem;box-shadow:0 12px 30px rgba(120,50,85,.18);white-space:nowrap}
+.pill b{color:var(--berry)}
+
+/* video band */
+.vid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;padding-block:64px;background:var(--lav);border-radius:36px}
+.vid h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.vid p{margin-top:14px;color:var(--muted);max-width:40ch}
+
+/* feature rows */
+.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:56px;align-items:center;padding-block:56px}
+.feat.flip .copy{order:2}
+.feat h2{font-size:clamp(1.9rem,4.2vw,2.9rem);margin-top:10px}
+.feat .copy>p{margin-top:16px;color:var(--muted);max-width:44ch}
+.feat ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.feat li{display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.feat li::before{content:"";flex:none;width:9px;height:9px;margin-top:.62em;border-radius:50%;background:var(--berry)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.duo .phone:nth-child(2){margin-top:44px}
+
+/* more */
+.more h2{font-size:clamp(1.8rem,4vw,2.6rem);text-align:center}
+.more .sub{text-align:center;color:var(--muted);margin:12px auto 0;max-width:50ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:34px}
+.tile{background:var(--surface);border-radius:22px;padding:20px 22px;box-shadow:0 10px 26px rgba(120,50,85,.08);min-width:0}
+.tile h3{font:700 1.02rem var(--body);letter-spacing:0}
+.tile p{margin-top:6px;color:var(--muted);font-size:.93rem;line-height:1.5}
+
+/* theme + privacy */
+.band{background:var(--surface);border-radius:36px;padding-block:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;box-shadow:0 18px 50px rgba(120,50,85,.08)}
+.band h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-top:10px}
+.band p{color:var(--muted);margin-top:14px;max-width:42ch}
+.band ul{margin:18px 0 0;padding-left:20px;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+
+/* steps */
+.steps h2{font-size:clamp(1.8rem,4vw,2.6rem);text-align:center}
+.stepgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px}
+.step{background:var(--petal);border-radius:24px;padding:24px;min-width:0}
+.step .n{font:600 2.4rem var(--display);color:var(--berry);line-height:1}
+.step h3{font:700 1.05rem var(--body);margin-top:10px;letter-spacing:0}
+.step p{margin-top:6px;color:var(--muted);font-size:.95rem;line-height:1.5}
+
+.end{text-align:center;padding-block:80px 40px}
+.end img{width:200px;height:auto}
+.end h2{font-size:clamp(2rem,5vw,3.4rem);margin-top:14px}
+.end p{color:var(--muted);margin:14px auto 0;max-width:42ch}
+.end .btn{margin-top:26px}
+footer{padding-block:30px 40px;text-align:center;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  body{font-size:16.5px}
+  .hero,.feat,.vid,.band{grid-template-columns:1fr}
+  .hero{gap:28px;padding-bottom:48px}
+  .hero .stack{order:-1}
+  .feat{gap:28px;padding-block:36px}
+  .feat.flip .copy{order:0}
+  .vid{padding-block:40px;padding-left:22px;padding-right:22px;border-radius:28px}
+  .band{padding-left:22px;padding-right:22px;border-radius:28px}
+  .phone{max-width:250px}
+  .pill{font-size:.8rem;padding:8px 14px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<style>:root{color-scheme:light}body{margin:0}</style>
+</head>
+<body>
+<div class="gut">
+ <div class="in">
+  <div class="bar">
+    <a class="brand" href="#atas"><img src="img/mark.png" alt="">LoveyNest</a>
+    <button class="mode" id="mode" type="button" aria-pressed="false">Lihat tampilan gelap</button>
+  </div>
+
+  <header class="hero" id="atas">
+    <div>
+      <p class="eyebrow">Aplikasi untuk dua orang</p>
+      <h1>Ruang kecil untuk <em>dua hati</em>.</h1>
+      <p class="lede">Chat, kalender, tugas, album, dan surat kecil untuk pasanganmu. Semua di satu tempat yang cuma bisa dibuka kalian berdua.</p>
+      <div class="cta">
+        <a class="btn" href="#cara">Cara memulai</a>
+        <a class="btn ghost" href="#fitur">Lihat fitur</a>
+      </div>
+      <small>Dipasang di layar utama HP seperti aplikasi biasa, dan datanya tersimpan di server milik kalian sendiri.</small>
+    </div>
+    <div class="stack">
+      <div class="phone"><img data-shot="dashboard" alt="Beranda LoveyNest menampilkan 986 hari bersama"></div>
+      <span class="pill" style="left:-4%;top:14%">💗 <b>986</b> hari bersama</span>
+      <span class="pill" style="right:-2%;bottom:16%">🔥 <b>28</b> hari beruntun</span>
+    </div>
+  </header>
+
+  <section class="vid gut" style="margin-inline:calc(-1 * max(18px,env(safe-area-inset-left,0px)));padding-inline:max(22px,env(safe-area-inset-left,0px)) max(22px,env(safe-area-inset-right,0px))">
+    <div>
+      <p class="eyebrow">Lihat sekilas</p>
+      <h2>Satu menit untuk <em>kenalan</em>.</h2>
+      <p>Video singkat yang menunjukkan layar-layar utama LoveyNest. Nyalakan suaranya.</p>
+    </div>
+    <div class="phone sm" style="max-width:260px"><video src="video.mp4" poster="img/dashboard-light.jpg" controls playsinline preload="metadata"></video></div>
+  </section>
+
+  <div id="fitur"></div>
+
+  <section class="feat">
+    <div class="copy">
+      <p class="eyebrow">Chat berdua</p>
+      <h2>Obrolan yang <em>cuma untuk kalian</em>.</h2>
+      <p>Satu percakapan pribadi, tanpa grup dan tanpa orang lain.</p>
+      <ul>
+        <li>Balas pesan tertentu dan beri reaksi emoji</li>
+        <li>Kirim foto dan pesan suara</li>
+        <li>Lihat kapan pasangan online dan sedang mengetik</li>
+        <li>Cari pesan lama dan sematkan yang penting</li>
+      </ul>
+    </div>
+    <div class="phone"><img data-shot="chat" alt="Percakapan berdua di LoveyNest"></div>
+  </section>
+
+  <section class="feat flip">
+    <div class="copy">
+      <p class="eyebrow">Tugas & Kalender</p>
+      <h2>Urusan berdua jadi <em>kerja tim</em>.</h2>
+      <p>Pisahkan yang pribadi dari yang bersama, lalu bagi tugasnya.</p>
+      <ul>
+        <li>Tugas pribadi dan tugas bersama, dengan penanggung jawab</li>
+        <li>Kalender tampilan bulan, minggu, dan agenda</li>
+        <li>Acara berulang dan pengingat sebelum waktunya</li>
+        <li>Riwayat kencan dengan penilaian</li>
+      </ul>
+    </div>
+    <div class="duo"><div class="phone sm"><img data-shot="tasks" alt="Daftar tugas bersama"></div><div class="phone sm"><img data-shot="calendar" alt="Kalender tampilan agenda"></div></div>
+  </section>
+
+  <section class="feat">
+    <div class="copy">
+      <p class="eyebrow">Album & Surat</p>
+      <h2>Simpan kenangan, kirim <em>surat kecil</em>.</h2>
+      <p>Foto dan tulisan kalian disimpan rapi, bukan tenggelam di galeri.</p>
+      <ul>
+        <li>Album pribadi atau berdua, unggah banyak foto sekaligus</li>
+        <li>Keterangan, lokasi, tanggal, dan foto favorit</li>
+        <li>Jurnal pribadi dan jurnal berdua</li>
+        <li>Surat untuk pasangan, isinya tidak tampil di layar kunci</li>
+      </ul>
+    </div>
+    <div class="duo"><div class="phone sm"><img data-shot="album" alt="Album foto Liburan ke Bali"></div><div class="phone sm"><img data-shot="letters" alt="Surat untuk pasangan"></div></div>
+  </section>
+
+  <section class="feat flip">
+    <div class="copy">
+      <p class="eyebrow">Mood & Pertanyaan harian</p>
+      <h2>Lebih paham perasaan, <em>tanpa menebak</em>.</h2>
+      <p>Satu pilihan mood tiap hari, dan satu pertanyaan kecil untuk dijawab berdua.</p>
+      <ul>
+        <li>Pilih mood dan catatan singkat, atur siapa yang boleh melihat</li>
+        <li>Peta warna mood 30 hari terakhir</li>
+        <li>Jawaban pasangan baru terbuka setelah kamu menjawab</li>
+        <li>Tombol "ingin ditemani" saat sedang butuh</li>
+      </ul>
+    </div>
+    <div class="duo"><div class="phone sm"><img data-shot="mood2" alt="Riwayat mood 30 hari"></div><div class="phone sm"><img data-shot="pertanyaan" alt="Pertanyaan harian"></div></div>
+  </section>
+
+  <section class="feat">
+    <div class="copy">
+      <p class="eyebrow">Menu Berdua</p>
+      <h2>Kuis, bucket list, dan <em>papan impian</em>.</h2>
+      <p>Hal-hal kecil yang bikin hubungan terasa hidup.</p>
+      <ul>
+        <li>Kuis tebak jawaban pasangan, untuk bahan ngobrol</li>
+        <li>Bucket list dan wishlist, bisa dicoret bersama</li>
+        <li>Papan impian dengan target dan kemajuan</li>
+        <li>Kirim peluk, kangen, cium, atau semangat dengan satu ketukan</li>
+      </ul>
+    </div>
+    <div class="duo"><div class="phone sm"><img data-shot="berdua" alt="Menu Berdua"></div><div class="phone sm"><img data-shot="impian" alt="Papan impian"></div></div>
+  </section>
+
+  <section class="more feat" style="display:block;padding-block:48px">
+    <h2>Dan <em>masih banyak lagi</em>.</h2>
+    <p class="sub">Semua ini sudah ada di dalam aplikasi.</p>
+    <div class="tiles">
+      <div class="tile"><h3>Hari jadian & momen</h3><p>Hitung hari bersama dan hitung mundur ulang tahun atau tanggal penting.</p></div>
+      <div class="tile"><h3>Kebiasaan & tujuan</h3><p>Lacak kebiasaan kecil dan tujuan bersama, lengkap dengan hari beruntun.</p></div>
+      <div class="tile"><h3>Kapsul waktu</h3><p>Tulis pesan yang disegel sampai tanggal yang kalian tentukan.</p></div>
+      <div class="tile"><h3>Voting berdua</h3><p>Bingung mau makan apa? Buat pilihan dan putuskan bersama.</p></div>
+      <div class="tile"><h3>Anggaran kencan</h3><p>Catat pengeluaran bersama dan tabungan impian.</p></div>
+      <div class="tile"><h3>Playlist kita</h3><p>Kumpulkan lagu-lagu yang punya cerita untuk kalian.</p></div>
+      <div class="tile"><h3>Tahun kita</h3><p>Ringkasan perjalanan kalian dalam satu tahun.</p></div>
+      <div class="tile"><h3>Lokasi berdua</h3><p>Bagikan lokasi dan lihat jarak, hanya jika kalian berdua mau.</p></div>
+    </div>
+  </section>
+
+  <section class="band gut" style="margin-inline:calc(-1 * max(18px,env(safe-area-inset-left,0px)));padding-inline:max(22px,env(safe-area-inset-left,0px)) max(22px,env(safe-area-inset-right,0px))">
+    <div>
+      <p class="eyebrow">Privat sejak awal</p>
+      <h2>Ruangnya <em>hanya untuk dua orang</em>.</h2>
+      <p>Setiap data terikat ke ruang kalian. Orang lain yang mencoba membukanya hanya mendapat halaman tidak ditemukan.</p>
+      <ul>
+        <li>Foto disimpan privat dan diberikan hanya lewat pengecekan akses</li>
+        <li>Surat hanya bisa diubah dan dihapus oleh penulisnya</li>
+        <li>Kamu bisa mengekspor data dan menghapus akun kapan saja</li>
+        <li>Tema terang, gelap, atau mengikuti HP</li>
+      </ul>
+    </div>
+    <div class="duo"><div class="phone sm"><img data-shot="dashboard" alt="Beranda"></div><div class="phone sm"><img data-shot="momen" alt="Hari jadian dan momen"></div></div>
+  </section>
+
+  <section class="steps" id="cara" style="padding-block:72px 16px">
+    <h2>Mulai dalam <em>empat langkah</em>.</h2>
+    <div class="stepgrid">
+      <div class="step"><div class="n">1</div><h3>Buat akun</h3><p>Daftar dengan email dan kata sandi.</p></div>
+      <div class="step"><div class="n">2</div><h3>Buat ruang berdua</h3><p>Beri nama ruang kecil kalian.</p></div>
+      <div class="step"><div class="n">3</div><h3>Undang pasangan</h3><p>Kirim kode undangan. Kodenya berlaku 48 jam.</p></div>
+      <div class="step"><div class="n">4</div><h3>Pasang di layar utama</h3><p>Tambahkan ke layar utama HP agar terbuka seperti aplikasi.</p></div>
+    </div>
+  </section>
+
+  <section class="end">
+    <img src="img/logo.png" alt="LoveyNest">
+    <h2>Mulai sarang kecil <em>kalian berdua</em>.</h2>
+    <p>Ajak pasanganmu, lalu isi hari-hari kalian dengan hal kecil yang manis.</p>
+    <a class="btn" href="#atas">Kembali ke atas</a>
+  </section>
+  <footer>Semua tampilan di halaman ini memakai data contoh dengan pasangan fiktif.</footer>
+ </div>
+</div>
+
+<script>
+const root=document.documentElement,btn=document.getElementById('mode');
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+let pref=null;try{pref=localStorage.getItem('ln-page-theme')}catch(e){}
+function isDark(){return pref?pref==='dark':mq.matches}
+function apply(){const d=isDark();if(pref)root.setAttribute('data-theme',pref);else root.removeAttribute('data-theme');
+  btn.textContent=d?'Lihat tampilan terang':'Lihat tampilan gelap';btn.setAttribute('aria-pressed',String(d));
+  document.querySelectorAll('img[data-shot]').forEach(i=>{i.src='img/'+i.dataset.shot+'-'+(d?'dark':'light')+'.jpg'})}
+btn.addEventListener('click',()=>{pref=isDark()?'light':'dark';try{localStorage.setItem('ln-page-theme',pref)}catch(e){}apply()});
+mq.addEventListener?.('change',apply);
+apply();
+</script>
+
+</body>
+</html>

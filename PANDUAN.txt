@@ -1,0 +1,18 @@
+# Pasang halaman LoveyNest di domain sendiri
+
+Isi `situs-loveynest.zip` adalah situs statis (HTML, gambar, video). Tidak perlu PHP atau database, jadi cukup hosting gratis.
+Setelah diekstrak ada folder `situs` dengan `index.html` di dalamnya. Isi folder itulah yang diunggah.
+
+## Cara termudah: Cloudflare Pages (gratis, bisa lewat HP)
+1. Daftar di dash.cloudflare.com lalu buka Workers & Pages, Create, Pages, Upload assets.
+2. Beri nama proyek lalu unggah folder `situs` hasil ekstrak (atau ZIP-nya). Klik Deploy.
+3. Buka Custom domains di proyek, Set up a custom domain, isi domainmu (misalnya `loveynest.domainmu.com`).
+4. Jika domain sudah memakai nameserver Cloudflare, DNS terisi otomatis. Jika belum, Cloudflare menampilkan satu catatan CNAME yang ditambahkan di tempat kamu membeli domain.
+5. Tunggu beberapa menit sampai HTTPS aktif.
+
+Alternatif setara: Netlify (drag and drop folder) atau GitHub Pages.
+
+## Catatan
+- Halaman memuat font dari Google Fonts, jadi butuh internet saat dibuka.
+- Belum ada tombol "Coba sekarang". Tambahkan setelah alamat atau kontak untuk mencoba aplikasi sudah ada.
+- Aplikasi LoveyNest sendiri (Laravel + database) tidak bisa di hosting statis. Itu butuh server PHP atau Cloudflare Tunnel dari komputer yang menyala, dan bisa dikerjakan di thread terpisah.
